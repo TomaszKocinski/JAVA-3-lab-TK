@@ -9,18 +9,46 @@ package pl.edu.uksw.wmp.prja.laboratorium3;
  *
  * @author Kot
  */
-public class AutomatZKlawiatura implements Klawiatura {
+public class Bankomat extends AutomatZKlawiatura {
 
-    public String str;
-    public Boolean czyMoznaWypisac;
-    public int lastOK;
-    public AutomatZKlawiatura() {
-        str = new String();
-        czyMoznaWypisac = false;
-        lastOK=0;
+    private int Pieniadze;
+    public String PIN;
+    public Boolean czyDobryPIN, czyOKdoPIN;
+    Bankomat() {
+        super();
+        Pieniadze = 1000;
+        PIN = "1234";
+        czyDobryPIN=false;
+        czyOKdoPIN=false;
     }
 
-    @Override
+    public int getPieniadze() {
+        rozpocznijWyplate();
+        return Pieniadze;
+    }
+
+    public void rozpocznijWyplate() {
+       
+        if(!czyOKdoPIN) return;
+        
+        String tempStr = str;
+        if (tempStr == null) {
+            return;
+        }
+        int tempPINLength = PIN.length();
+
+        if (PIN.equals(tempStr.substring(0, tempPINLength-1)))  {
+            return;
+        }
+        //wyp
+        int kasa = Integer.valueOf(tempStr.substring(tempPINLength));
+        if (kasa > Pieniadze) {
+            return;
+        }
+        Pieniadze -= kasa;
+        
+       czyOKdoPIN=false;
+    }
     public void nacisnijKlawisz(Klawisz arg) {
         switch (arg) {
             case NUM0:
@@ -54,25 +82,11 @@ public class AutomatZKlawiatura implements Klawiatura {
                 str += "9";
                 break;
             case OK:
-                lastOK=str.length();
-                czyMoznaWypisac = true;
+                czyOKdoPIN=true;
                 break;
             case ANULUJ:
                 str=str.substring(0, lastOK);
                 break;
-        }
-
-    }
-
-    public String podajWpisanaWartosc() {
-        if (czyMoznaWypisac) {
-            String temp = str;
-            str = "";
-            lastOK=0;
-            czyMoznaWypisac = false;
-            return temp;
-        } else {
-            return null;
         }
 
     }
