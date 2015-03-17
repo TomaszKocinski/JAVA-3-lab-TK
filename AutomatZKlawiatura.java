@@ -12,11 +12,11 @@ package pl.edu.uksw.wmp.prja.laboratorium3;
 public class AutomatZKlawiatura implements Klawiatura {
 
     public String str;
-    public Boolean czyMoznaWypisac;
+    public Boolean czyMoznaDzialac;
     public int lastOK;
     public AutomatZKlawiatura() {
         str = new String();
-        czyMoznaWypisac = false;
+        czyMoznaDzialac = false;
         lastOK=0;
     }
 
@@ -55,7 +55,7 @@ public class AutomatZKlawiatura implements Klawiatura {
                 break;
             case OK:
                 lastOK=str.length();
-                czyMoznaWypisac = true;
+                czyMoznaDzialac = true;
                 break;
             case ANULUJ:
                 str=str.substring(0, lastOK);
@@ -65,11 +65,11 @@ public class AutomatZKlawiatura implements Klawiatura {
     }
 
     public String podajWpisanaWartosc() {
-        if (czyMoznaWypisac) {
+        if (czyMoznaDzialac) {
             String temp = str;
             str = "";
             lastOK=0;
-            czyMoznaWypisac = false;
+            czyMoznaDzialac = false;
             return temp;
         } else {
             return null;
