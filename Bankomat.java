@@ -16,7 +16,7 @@ public class Bankomat extends AutomatZKlawiatura {
     Bankomat() {
         super();
         Pieniadze = 1000;
-        PIN = "1234";
+        PIN = new String("1234");
     }
     public int getPieniadze() {
         rozpocznijWyplate();
@@ -24,17 +24,16 @@ public class Bankomat extends AutomatZKlawiatura {
     }
     public void rozpocznijWyplate() {
         String tempStr = str;
-        int tempPINLength = PIN.length();
-
+        int tempPINLength = PIN.length(); 
         if (czyMoznaDzialac ) {
-            if (!PIN.equals(tempStr.substring(0, tempPINLength - 1))) {
+            if (PIN.equals(tempStr.substring(0, tempPINLength))) {
                 int kasa = Integer.valueOf(tempStr.substring(tempPINLength));
                 if (kasa <= Pieniadze) {
                     Pieniadze -= kasa;
                 }
             }
+             podajWpisanaWartosc();
         }
-        podajWpisanaWartosc();
     }
 
 }
