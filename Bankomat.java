@@ -1,39 +1,62 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.edu.uksw.wmp.prja.laboratorium3;
+//@author Kot
 
-/**
- *
- * @author Kot
- */
+enum flaga {
+
+    NIC, GOTOWY, POB_PIN;
+}
+
 public class Bankomat extends AutomatZKlawiatura {
+
     protected int Pieniadze;
-    public String PIN;
+    protected String PIN;
+    protected flaga flag;
 
     Bankomat() {
         super();
         Pieniadze = 1000;
         PIN = new String("1234");
+        flag = flaga.NIC;
     }
+
     public int getPieniadze() {
-        rozpocznijWyplate();
         return Pieniadze;
     }
+
     public void rozpocznijWyplate() {
-        String tempStr = str;
-        int tempPINLength = PIN.length(); 
-        if (czyMoznaDzialac ) {
-            if (PIN.equals(tempStr.substring(0, tempPINLength))) {
-                int kasa = Integer.valueOf(tempStr.substring(tempPINLength));
-                if (kasa <= Pieniadze) {
-                    Pieniadze -= kasa;
-                }
+        flag = flaga.GOTOWY;
+    }
+
+    public void nacisnijKlawisz(Klawisz arg) {
+        if (flag != flaga.NIC) {
+            if (arg != Klawisz.ANULUJ && arg != Klawisz.OK) {
+                super.nacisnijKlawisz(arg);
             }
-             podajWpisanaWartosc();
+            if (arg == Klawisz.OK) {
+                wcisnietyOK();
+            }
+            if (arg == Klawisz.ANULUJ) {
+                flag = flaga.NIC;
+                str = "";
+                czyMoznaDzialac = false;
+            }
         }
     }
 
+    public void wcisnietyOK() {
+        if (flag == flaga.GOTOWY) {
+            czyMoznaDzialac = true;
+            if (PIN.equals(podajWpisanaWartosc())) {
+                flag = flaga.POB_PIN;
+            } else {
+                flag = flaga.NIC;
+            }
+        } else if (flag == flaga.POB_PIN) {
+            czyMoznaDzialac = true;
+            int kasa = Integer.valueOf(podajWpisanaWartosc());
+            if (kasa <= Pieniadze) {
+                Pieniadze -= kasa;
+            }
+        }
+    }
 }

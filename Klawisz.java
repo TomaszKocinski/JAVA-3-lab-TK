@@ -1,14 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.edu.uksw.wmp.prja.laboratorium3;
+//@author Kot
 
-/**
- *
- * @author Kot
- */
 public enum Klawisz {
-    NUM0,NUM1,NUM2,NUM3,NUM4,NUM5,NUM6,NUM7,NUM8,NUM9,OK,ANULUJ;
+
+    NUM0(0), NUM1(1), NUM2(2), NUM3(3), NUM4(4), NUM5(5), NUM6(6), NUM7(7), NUM8(8), NUM9(9), OK(-1), ANULUJ(-2);
+
+    private int wartosc;
+
+    Klawisz(int wartosc) {
+        this.wartosc = wartosc;
+    }
+
+    public int getWartosc() {
+        return wartosc;
+    }
+
 }
